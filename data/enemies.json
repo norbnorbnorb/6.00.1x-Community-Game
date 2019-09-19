@@ -10,7 +10,7 @@
         "Lisa",
         "Sarah",
         "Anna"
-    ],
+      ],
       "meta": {
         "low_lvl": -1,
         "high_lvl": 0,
@@ -32,31 +32,34 @@
         "int": 1,
         "agility": 2,
         "toughness": 2
+      },
+      "equipment": {
+        "Main Hand": "equipment/default/weapon/club"
       }
     },
     "goblin": {
       "names": [
-          "sruc",
-          "cirt",
-          "jozz",
-          "eerx",
-          "kliarx",
-          "prolkiel",
-          "zrikluilk",
-          "xaareaz",
-          "slerbord",
-          "gaalsot",
-          "roc",
-          "worx",
-          "briak",
-          "zeasz",
-          "grearx",
-          "zrilags",
-          "giorzegs",
-          "uiskeeld",
-          "raastelb",
-          "poviart"
-    ],
+        "sruc",
+        "cirt",
+        "jozz",
+        "eerx",
+        "kliarx",
+        "prolkiel",
+        "zrikluilk",
+        "xaareaz",
+        "slerbord",
+        "gaalsot",
+        "roc",
+        "worx",
+        "briak",
+        "zeasz",
+        "grearx",
+        "zrilags",
+        "giorzegs",
+        "uiskeeld",
+        "raastelb",
+        "poviart"
+      ],
       "meta": {
         "low_lvl": -1,
         "high_lvl": 0,
@@ -78,6 +81,9 @@
         "int": 3,
         "agility": 5,
         "toughness": 1
+      },
+      "equipment": {
+        "Main Hand": "equipment/default/weapon/dagger"
       }
     }
   },
@@ -87,7 +93,7 @@
         "ryu",
         "sub zero",
         "katsumi"
-        ],
+      ],
       "meta": {
         "low_lvl": -1,
         "high_lvl": 0,
@@ -109,31 +115,34 @@
         "int": 2,
         "agility": 5,
         "toughness": 1
+      },
+      "equipment": {
+        "Main Hand": "equipment/weapon/dagger"
       }
     },
     "orc": {
       "names": [
-          "Neghed",
-          "Crothu",
-          "Xurl",
-          "Khagra",
-          "Sakgu",
-          "Gulm",
-          "Bazgulub",
-          "Surghed",
-          "Pughilug",
-          "Sumhug",
-          "Mabub",
-          "Dakgu",
-          "Vorgak",
-          "Yonkathu",
-          "Sunuguk",
-          "Shat",
-          "Surbag",
-          "Yulakgh",
-          "Opeghat",
-          "Sugarod"
-        ],
+        "Neghed",
+        "Crothu",
+        "Xurl",
+        "Khagra",
+        "Sakgu",
+        "Gulm",
+        "Bazgulub",
+        "Surghed",
+        "Pughilug",
+        "Sumhug",
+        "Mabub",
+        "Dakgu",
+        "Vorgak",
+        "Yonkathu",
+        "Sunuguk",
+        "Shat",
+        "Surbag",
+        "Yulakgh",
+        "Opeghat",
+        "Sugarod"
+      ],
       "meta": {
         "low_lvl": -1,
         "high_lvl": 0,
@@ -155,6 +164,9 @@
         "int": 1,
         "agility": 3,
         "toughness": 2
+      },
+      "equipment": {
+        "Main Hand": "equipment/default/weapon/club"
       }
     }
   },
@@ -171,7 +183,7 @@
         "Minky",
         "Colin",
         "Skeletor"
-        ],
+      ],
       "per_lvl": {
         "vit_p_lvl": 2,
         "dex_p_lvl": 3,
@@ -187,6 +199,9 @@
         "int": 2,
         "agility": 6,
         "toughness": 1
+      },
+      "equipment": {
+        "Main Hand": "equipment/default/weapon/dagger"
       }
     },
     "high_boss_test": {
@@ -201,7 +216,7 @@
         "Minky",
         "Colin",
         "Skeletor"
-        ],
+      ],
       "per_lvl": {
         "vit_p_lvl": 2,
         "dex_p_lvl": 3,
@@ -217,7 +232,11 @@
         "int": 20,
         "agility": 20,
         "toughness": 6
+      },
+      "equipment": {
+        "Main Hand": "equipment/default/weapon/club"
       }
     }
   }
 }
+

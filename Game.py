@@ -21,7 +21,7 @@ class Game:
     def __init__(self):
         self.party = Party.generate(self)
         self.Mode = ''
-        self.lvl_map = Map.generate(self)
+        self.lvl_map = MapFloor.generate(self)
         self.difficulty = ''
         self.kill_count = {
             'trash': 0,
@@ -259,7 +259,7 @@ class Game:
         dummy.__dict__ = save_data['game'].copy()
         dummy.party = Party.deserialize(dummy.party.copy())
         dummy.party.game = dummy
-        dummy.lvl_map = Map.deserialize(dummy.lvl_map.copy())
+        dummy.lvl_map = MapFloor.deserialize(dummy.lvl_map.copy())
         dummy.lvl_map.game = dummy
         return dummy
 

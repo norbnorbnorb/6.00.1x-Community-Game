@@ -21,6 +21,9 @@
                 "int": 2,
                 "agility": 6,
                 "toughness": 1
+            },
+            "equipment": {
+                "Main Hand": "equipment/default/weapon/dagger"
             }
         },
         "Warrior": {
@@ -45,6 +48,9 @@
                 "int": 1,
                 "agility": 5,
                 "toughness": 2
+            },
+            "equipment": {
+                "Main Hand": "equipment/default/weapon/club"
             }
         },
         "Mage": {
@@ -68,6 +74,9 @@
                 "int": 10,
                 "agility": 5,
                 "toughness": 1
+            },
+            "equipment": {
+                "Main Hand": "equipment/default/weapon/dagger"
             }
         }
     }

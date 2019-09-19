@@ -100,10 +100,7 @@ class Equipment:
 
     def __repr__(self):
         return f'{self.quality} {self.type}: {self.equipable_slot}'
-        # _max_left = max(len(k) for k in self.__dict__.keys()) + 10
-        # return '\n'.join(
-        #     [f"{k.title()}: {str(v).rjust(_max_left - len(k), ' ')}"
-        #      for k, v in self.__dict__.items()])
+
 
     def show_stats(self):
         name = f'{self.quality} {self.type}'

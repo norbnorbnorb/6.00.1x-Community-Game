@@ -1,26 +1,81 @@
 {
-  "weapons": {
-    "thief_dagger": {
-      "stats": {
-        "vit": 0,
-        "dex": 2,
-        "str": 0,
-        "int": 0,
-        "agility": 1,
-        "toughness": 0,
-        "max_hp": 0,
-        "max_mana": 0,
-        "armor": 0,
-        "magic_resistance": 0,
-        "speed": 0,
-        "dodge": 1,
-        "crit_chance": 2.5,
-        "crit_dmg": 5,
-        "elemental_resistance": 0,
-        "wpn_dmg": 2
+  "default": {
+    "weapon": {
+      "dagger": {
+        "base_stats": {
+          "vit": 0,
+          "dex": 2,
+          "str": 0,
+          "int": 0,
+          "agility": 1,
+          "toughness": 0
+        },
+        "stats": {
+          "max_hp": 0,
+          "max_mana": 0,
+          "armor": 0,
+          "magic_resistance": 0,
+          "speed": 0,
+          "dodge": 1,
+          "crit_chance": 2.5,
+          "crit_dmg": 5,
+          "elemental_resistance": 0,
+          "wpn_dmg": 2
+        },
+        "name": "dagger",
+        "attack": "primary_attacks/basic_attack_dex",
+        "equipable_slot": "Main Hand"
       },
-      "name": "thiefs dagger",
-      "attack_setup": "weapons/basic_attack_dex"
+      "club": {
+        "base_stats": {
+          "vit": 1,
+          "dex": 0,
+          "str": 2,
+          "int": 0,
+          "agility": 0,
+          "toughness": 0
+        },
+        "stats": {
+          "max_hp": 40,
+          "max_mana": 0,
+          "armor": 2,
+          "magic_resistance": 2,
+          "speed": 0,
+          "dodge": 0,
+          "crit_chance": 0,
+          "crit_dmg": 0,
+          "elemental_resistance": 2,
+          "wpn_dmg": 2
+        },
+        "name": "club",
+        "attack": "primary_attacks/basic_attack_str",
+        "equipable_slot": "Main Hand"
+      },
+      "bleed_dagger": {
+        "base_stats": {
+          "vit": 0,
+          "dex": 3,
+          "str": 0,
+          "int": 0,
+          "agility": 1,
+          "toughness": 0
+        },
+        "stats": {
+          "max_hp": 0,
+          "max_mana": 0,
+          "armor": 0,
+          "magic_resistance": 0,
+          "speed": 1,
+          "dodge": 1,
+          "crit_chance": 2.5,
+          "crit_dmg": 5,
+          "elemental_resistance": 0,
+          "wpn_dmg": 2
+        },
+        "name": "swift cutting dagger",
+        "attack": "primary_attacks/bleed_attack_dex",
+        "equipable_slot": "Main Hand"
+      }
     }
   }
 }

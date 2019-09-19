@@ -7,8 +7,20 @@ import random
 
 def battle_menu(attacker, enemy_party):
     # generate option lists
-    attack_options = [{'name': item.attack_name, 'attack_setup': item.attack_setup} for item in
-                      [attacker.equip_slots['Main Hand'], attacker.equip_slots['Off Hand']] if item]
+    # attack_options = [{'name': item.attack_name, 'attack_setup': item.attack_setup} for item in
+    #                   [attacker.equip_slots['Main Hand'],
+    #                    attacker.equip_slots['Off Hand']] if item]
+    equip_with_attacks = ['Main Hand', 'Off Hand']
+
+    attack_loc_strings = [attacker.equip_slots.get(item).__getattribute__('attack') for item in equip_with_attacks
+                          if attacker.equip_slots.get(item, None)]
+    attack_player_display_list = []
+    attack_list = []
+    for a_loc_s in attack_loc_strings:
+        attack = get_data_from_loc_str(data, a_loc_s)
+        attack_list.append(attack)
+        user_info_str = f'{attack["name"]}'  # TODO: add info from attack setup, target number ....
+        attack_player_display_list.append(user_info_str)
 
     spell_options = []
     on_cd = []
@@ -28,22 +40,29 @@ def battle_menu(attacker, enemy_party):
 
     action = attacker.choose_battle_action(possible_actions).lower()
     if action == 'attack':
-        setup_key = attacker.choose_attack(attack_options)
-        setup = attack_options[setup_key]['attack_setup']
-        dmg_done = run_attack(attacker, enemy_party, **setup)
+        attack_index = attacker.choose_attack(attack_player_display_list)
+        attack_loc_str = attack_loc_strings[attack_index]
+        attack = get_data_from_loc_str(data, attack_loc_str)
+        setup = get_data_from_loc_str(data, attack['attack_setup'])
+        attack_dmg_base = attack['dmg_base']
+        elemental = attack['elemental']
+        dmg_done = run_attack(attacker, enemy_party, dmg_base=attack_dmg_base, elemental=elemental, **setup)
 
     elif action == 'spell':
         if len(spell_options) < 1:
             print(f'You have no spells to use this turn!')
             action = battle_menu(attacker, enemy_party)
         else:
-            setup_key = attacker.choose_attack(spell_options)
-            setup = spell_options[setup_key]['attack_setup']
-            spell_keys = get_keys_from_loc_str(data, setup)
-            attack = get_data_from_keys(data, spell_keys)
-            dmg_done = run_attack(attacker, enemy_party, **attack['setup'])
-            attacker.set_mana(-spell_options[setup_key]['mana_cost'])
-            spell_options[setup_key]['cd_timer'] = spell_options[setup_key]['cool_down']
+            spell_index = attacker.choose_attack(spell_options)
+            spell = spell_options[spell_index]
+            attack_setup = get_data_from_loc_str(data, spell['attack_setup'])
+            spell_dmg_base = spell['dmg_base']
+            spell_elemental = spell['elemental']
+            dmg_done = run_attack(attacker, enemy_party,
+                                  dmg_base=spell_dmg_base, elemental=spell_elemental, **attack_setup)
+
+            attacker.set_mana(-spell['mana_cost'])
+            spell['cd_timer'] = spell['cool_down']
 
     elif action == 'show hero stats':
         attacker.party.display_single_member_item_card(attacker)
@@ -72,7 +91,9 @@ def generate_dmg(attacker, target, dmg_base='str', is_crit=False,
     dmg_calc = get_data_from_keys(data, ['conversion_ratios', dmg_base+'_to_dmg'])
 
     dmg_wo_wpn = (attacker.__getattribute__(dmg_base) * dmg_calc['dmg_per_'+dmg_base]) + (attacker.level * dmg_calc['dmg_per_level'])
-    wpn_dmg = round((dmg_wo_wpn / 100) * get_data_from_keys(data, ['conversion_ratios', 'b_dmg_wpn_dmg_factor']) * attacker.__getattribute__('wpn_dmg')) + attacker.__getattribute__('wpn_dmg') + dmg_calc['start']
+
+    wpn_dmg = round((dmg_wo_wpn / 100) * get_data_from_keys(data, ['conversion_ratios', 'b_dmg_wpn_dmg_factor'])
+                    * attacker.__getattribute__('wpn_dmg')) + attacker.__getattribute__('wpn_dmg') + dmg_calc['start']
 
     wpn_dmg = wpn_dmg / 100 * wpn_dmg_perc
 

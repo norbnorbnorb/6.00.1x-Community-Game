@@ -7,16 +7,26 @@ from data_src import *
 
 rand_event_chance = 30
 
-class Map:
-    def __init__(self, game, base_map, events, p_loc_tx=0, p_loc_ty=0, p_loc_wx=0, p_loc_wy=0):
+
+class MapFloor:
+    def __init__(self, base_map, dungeon_name, floor, events, p_loc_tx=0, p_loc_ty=0, p_loc_wx=0, p_loc_wy=0):
         self.events = events
+        self.dungeon_name = dungeon_name
+        self.floor = floor
+        self.events_active_tile = []
         self.known_events = []
         self.base_map = base_map
-        self.game = game
         self.party_loc = {'pos': {
             'w': {'x': p_loc_wx, 'y': p_loc_wy},  # position  on the world
             't': {'x': p_loc_tx, 'y': p_loc_ty},  # position on the tile
         }, 'char': 'o'}
+        self.last_party_loc = self.party_loc
+
+    def __repr__(self):
+        return f'{self.dungeon_name} f: {self.floor}'
+
+    def __str__(self):
+        return f'{self.dungeon_name} f: {self.floor}'
 
     @property
     def active_base_tile(self):
@@ -56,6 +66,8 @@ class Map:
 
     def print_map(self, active_map):
         coordinate_str = f'X: {self.party_loc["pos"]["w"]["x"]} / Y: {self.party_loc["pos"]["w"]["y"]}'
+        dungeon_name_str = f'{self.dungeon_name} f: {self.floor}'
+        print(f'{dungeon_name_str:^{len(active_map[0]*2)}}')
         print(f'{coordinate_str:^{len(active_map[0]*2)}}')
         for row in active_map:
             for cell in row:
@@ -85,6 +97,7 @@ class Map:
         else:
             move = self.build_move(direction, scope='w')
             if self.eval_move(move):
+                self.last_party_loc = self.party_loc
                 self.make_move(move)
             else:
                 print('Move impossible')
@@ -149,11 +162,11 @@ class Map:
             if event:
                 print(f'{event.get("description")}')
                 return event['event_key']
-            else:
-                if random.randint(0, 100) < rand_event_chance:
-                    return 'random'
+            # else:
+            #     if random.randint(0, 100) < rand_event_chance:
+            #         return 'random'
 
-    def generate_and_place_events(self, event_loc_str, event_num, event_char='x'):
+    def generate_and_place_events(self, loc_str, amount, char='x'):
         world_r = len(self.base_map)
         world_w = len(self.base_map[0])
         tile_rows = len(self.base_map[0][0])
@@ -170,39 +183,26 @@ class Map:
                         'y': random.randint(0, world_r - 1),
                     }
                 },
-                'char': event_char,
+                'char': char,
                 'description': f'Event Nr {num + 1}',
-                'event_key': event_loc_str
-            } for num in range(event_num)
+                'event_key': loc_str
+            } for num in range(amount)
         ]
         self.events += new_events
 
     @classmethod
-    def generate(cls, game, tile_width=8, tile_rows=8, elite_events=30, world_w=2, world_r=2, party_loc_x=0, party_loc_y=0):
-        base_map = Map.generate_new_level(world_w, world_r, tile_width, tile_rows)
-        events = []
-        # events = [
-        #     {
-        #         'pos': {
-        #             't': {
-        #                 'x': random.randint(0, tile_width - 1),
-        #                 'y': random.randint(0, tile_rows - 1)
-        #             },
-        #             'w': {
-        #                 'x': random.randint(0, world_w - 1),
-        #                 'y': random.randint(0, world_r - 1),
-        #             }
-        #         },
-        #         'char': 'x',
-        #         'description': f'Event Nr {num + 1}',
-        #         'event_key': 'events/default/new random member'
-        #     } for num in range(elite_events)
-        # ]
-        map_cls = cls(game=game, base_map=base_map, events=events, p_loc_tx=party_loc_x, p_loc_ty=party_loc_y)
-        map_cls.generate_and_place_events('events/default/new random member', 5, 'M')
-        map_cls.generate_and_place_events('events/elite/rng', 25, 'E')
-        map_cls.generate_and_place_events('events/test/high_boss', 1, 'B')
-        return map_cls
+    def generate(cls, dungeon_name, floor, events, tile_width=8, tile_rows=8, world_w=2, world_r=1, party_loc_x=0, party_loc_y=0):
+        base_map = MapFloor.generate_new_level(world_w, world_r, tile_width, tile_rows)
+        # events = []
+
+        map_instance = cls(base_map, dungeon_name, floor, events=[], p_loc_tx=party_loc_x, p_loc_ty=party_loc_y)
+        for event in events:
+            map_instance.generate_and_place_events(**event)
+        # map_instance.generate_and_place_events('events/default/new random member', 5, 'M')
+        # map_instance.generate_and_place_events('events/elite/rng', 25, 'E')
+        # map_instance.generate_and_place_events('events/test/high_boss', 1, 'B')
+        map_instance.party_loc['pos'] = map_instance.events[-1]['pos']
+        return map_instance
 
     @classmethod
     def generate_new_level(cls, world_width=3, world_rows=3, tile_width=3, tile_rows=3):
@@ -212,7 +212,6 @@ class Map:
 
     def serialize(self):
         dummy = self.__dict__.copy()
-        dummy['game'] = None
         return dummy
 
     @classmethod
@@ -225,5 +224,5 @@ class Map:
 a = {'pos': {'w': {'x': 1, 'y': 1}, 't': {'x': 0, 'y': 0}}, 'char': '#'}
 
 if __name__ == '__main__':
-    m1 = Map.generate(None)
+    m1 = MapFloor.generate(None)
     m1.run_map()

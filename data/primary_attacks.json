@@ -1,0 +1,31 @@
+{
+  "basic_attack_dex": {
+    "name": "basic attack",
+    "description": "You run at your enemy and swiftly hit him.",
+    "attack_setup": "attack_setups/weapons/basic_attack",
+    "dmg_base": "dex",
+    "elemental": "physical"
+  },
+  "basic_attack_str": {
+    "name": "basic attack",
+    "description": "You run at your enemy and strongly hit him.",
+    "attack_setup": "attack_setups/weapons/basic_attack",
+    "dmg_base": "str",
+    "elemental": "physical"
+  },
+  "basic_attack_int": {
+    "name": "basic attack",
+    "description": "You run at your enemy and intelligently hit him.",
+    "attack_setup": "attack_setups/weapons/basic_attack",
+    "dmg_base": "int",
+    "elemental": "physical"
+  },
+  "bleed_attack_dex": {
+    "name": "bleed attack",
+    "description": "You slash a gushing wound on your enemy.",
+    "attack_setup": "attack_setups/weapons/basic_attack",
+    "dmg_base": "dex",
+    "elemental": "physical",
+    "status_effect": "status_effects/bleed"
+  }
+}

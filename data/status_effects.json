@@ -13,6 +13,8 @@
     "description": "dot effect",
     "msg": "is bleeding all over the flor",
     "ticks": 4,
-    "attack_setup": "dots/bleed"
+    "attack_setup": "attack_setups/dots/bleed",
+    "dmg_base": "dex",
+    "elemental": "physical"
   }
 }

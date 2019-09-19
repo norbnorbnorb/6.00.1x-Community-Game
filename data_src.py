@@ -1,6 +1,5 @@
 import json
 import os
-from types import SimpleNamespace
 import random
 
 project_root = os.getcwd()

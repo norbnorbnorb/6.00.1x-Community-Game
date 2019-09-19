@@ -5,7 +5,9 @@
         "mana_cost": 5,
         "cool_down": 2,
         "attack_setup": "attack_setups/spells/base_spell",
-        "cd_timer": 0
+        "cd_timer": 0,
+        "dmg_base": "str",
+        "elemental": "physical"
     },
     "heal": {
         "name": "heal",
@@ -13,6 +15,8 @@
         "mana_cost": 5,
         "cool_down": 2,
         "attack_setup": "attack_setups/spells/heal",
-        "cd_timer": 0
+        "cd_timer": 0,
+        "dmg_base": "int",
+        "elemental": "heal"
     }
 }

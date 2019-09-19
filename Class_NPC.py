@@ -4,10 +4,12 @@ import os
 
 from x_Attack_Setups import *
 import x_Spell_Setups
-from Item_Bases import *
+# from Item_Bases import *
 import battle
+from new_Class_Item import *
 from types import SimpleNamespace
 from data_src import *
+from vfx import *
 
 
 class NPC:
@@ -287,7 +289,7 @@ class NPC:
 
     @property
     def attack_dmg(self):
-        dmg_base = self.equip_slots['Main Hand'].attack_setup['dmg_base']
+        dmg_base = get_data_from_loc_str(data, self.equip_slots['Main Hand'].attack)['dmg_base']
         dummy_target = SimpleNamespace(hp=1, max_hp=1)
         return battle.generate_dmg(self, dummy_target, dmg_base=dmg_base)
 
@@ -602,19 +604,24 @@ class NPC:
         # }
         base_stats = unit_data['base']
         spell_book = []
-
-        equip_slots = {
-            'Main Hand': Weapon.generate(quality='Common', quality_val=1, etype='Weapon',
-                                         equipable_slot='Main Hand',
-                                         att_dmg_min=1, att_dmg_max=3),
-            'Off Hand': None,
-            'Head': None,
-            'Chest': None,
-            'Legs': None,
-            'Feet': None,
-            'Ring': None,
-            'Necklace': None,
-        }
+        equip_slot_list = ['Main Hand', 'Off Hand', 'Head', 'Chest', 'Legs', 'Feet', 'Ring', 'Necklace']
+        equip_slots = {}
+        for e_slot in equip_slot_list:
+            if unit_data["equipment"].get(e_slot, None):
+                equip_slots[e_slot] = Equipment.generate(unit_data["equipment"].get(e_slot), level)
+        # equip_slots = {
+        #     # 'Main Hand': Weapon.generate(quality='Common', quality_val=1, etype='Weapon',
+        #     #                              equipable_slot='Main Hand',
+        #     #                              att_dmg_min=1, att_dmg_max=3),
+        #     'Main Hand': Equipment.generate(unit_data["equipment"].get("Main Hand"), level),
+        #     'Off Hand': None,
+        #     'Head': None,
+        #     'Chest': None,
+        #     'Legs': None,
+        #     'Feet': None,
+        #     'Ring': None,
+        #     'Necklace': None,
+        # }
 
         tracked_values = {
             'ct': 1000,
