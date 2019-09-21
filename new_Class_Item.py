@@ -31,8 +31,9 @@ class Equipment:
 
 
     @classmethod
-    def generate(cls, item_loc_str, level):
-        quality = random.choices(sList, weights=sWeights, k=1)[0]
+    def generate(cls, item_loc_str, level, quality='rng'):
+        if quality == 'rng':
+            quality = random.choices(sList, weights=sWeights, k=1)[0]
         quality_val = sValue.get(quality)
 
         keys = data_src.get_keys_from_loc_str(data_src.data, item_loc_str)
@@ -77,6 +78,64 @@ class Equipment:
         return cls(quality, quality_val, etype, equipable_slot, value,
                    max_durability, durability, name,
                    base_stats, stats, attack)
+
+    @classmethod
+    def generate_random(cls, level, e_type='rng', e_slot='rng', quality='rng'):
+        e_types = {
+            "weapon": ['Main Hand', 'Off Hand'],
+            "armor": ['Head', 'Chest', 'Legs', 'Feet'],
+        }
+
+        quality_attrib_amount = {'Rusty': 0, 'Common': 1,
+                                 'Great': 2, 'Magical': 3,
+                                 'Legendary': 4}
+
+        level_mod = 1 + level * 0.5
+
+        if e_type == 'rng':
+            e_type = random.choice(list(e_types.keys()))
+        if e_slot == 'rng':
+            e_slot = random.choice(e_types[e_type])
+        if quality == 'rng':
+            quality = random.choices(sList, weights=sWeights, k=1)[0]
+        quality_val = sValue.get(quality)
+
+        main_base_stats = ['dex', 'str', 'int']
+        secondary_base_stats = ['vit', 'toughness', 'agility']
+
+        main_stat = random.choice(main_base_stats)
+        added_stats = [random.choice(secondary_base_stats)
+                       for _ in range(quality_attrib_amount[quality])]
+
+        # print(f'main: {main_stat} added: {added_stats}, combined: {added_stats + [main_stat]}')
+        value = 10
+        base_stats = {}
+        for stat in main_base_stats + secondary_base_stats:
+            if stat in added_stats + [main_stat]:
+                base_stats[stat] = random.randint(0, level) + random.randint(0, level)
+                base_stats[stat] = round(base_stats[stat] * quality_val * level_mod)
+                value += base_stats[stat]
+            else:
+                base_stats[stat] = 0
+
+        stats = {}
+
+        if e_type == 'Weapon':
+            wpn_dmg = ''
+            attack = ''
+        else:
+            wpn_dmg = None
+            attack = None
+
+        name = 'item name generation here'
+
+        max_durability = 10
+        durability = max_durability
+        return cls(quality, quality_val, e_type, e_slot, value,
+                   max_durability, durability, name,
+                   base_stats, stats, attack)
+
+
 
     def serialize(self):
         return self.__dict__.copy()

@@ -16,7 +16,7 @@
           "armor": 0,
           "magic_resistance": 0,
           "speed": 0,
-          "dodge": 1,
+          "dodge": 0.5,
           "crit_chance": 2.5,
           "crit_dmg": 5,
           "elemental_resistance": 0,
@@ -75,6 +75,29 @@
         "name": "swift cutting dagger",
         "attack": "primary_attacks/bleed_attack_dex",
         "equipable_slot": "Main Hand"
+      }
+    }
+  },
+  "armor": {
+    "tank_chest": {
+      "base_stats": {
+          "vit": 2,
+          "dex": 0,
+          "str": 0,
+          "int": 0,
+          "agility": 0,
+          "toughness": 1
+      },
+      "stats": {
+          "max_hp": 40,
+          "max_mana": 0,
+          "armor": 2,
+          "magic_resistance": 2,
+          "speed": 0,
+          "dodge": 0,
+          "crit_chance": 0,
+          "crit_dmg": 0,
+          "elemental_resistance": 2
       }
     }
   }

@@ -580,10 +580,6 @@ class NPC:
     def generate_unit(cls, unit_loc_str, level, name=''):
         keys = get_keys_from_loc_str(data, unit_loc_str)
         cls_type, unit_class, unit_type = keys
-        # if cls_type == 'enemies':
-        #     cls = NPC
-        # elif cls_type == 'hero_class':
-        #     cls = Hero
         unit_data = get_data_from_keys(data, keys)
         if not name:
             name = random.choice(unit_data['names'])
@@ -593,35 +589,15 @@ class NPC:
         u_type = unit_class
 
         xp_worth = meta_data.get('xp', 0)
-        # base_data = unit_data['base']
-        # base_stats = {
-        #     'vit': base_data['vit_start'],
-        #     'dex': base_data['dex_start'],
-        #     'str': base_data['str_start'],
-        #     'int': base_data['int_start'],
-        #     'agility': base_data['agility_start'],
-        #     'toughness': base_data['toughness_start'],
-        # }
+
         base_stats = unit_data['base']
         spell_book = []
         equip_slot_list = ['Main Hand', 'Off Hand', 'Head', 'Chest', 'Legs', 'Feet', 'Ring', 'Necklace']
         equip_slots = {}
         for e_slot in equip_slot_list:
             if unit_data["equipment"].get(e_slot, None):
-                equip_slots[e_slot] = Equipment.generate(unit_data["equipment"].get(e_slot), level)
-        # equip_slots = {
-        #     # 'Main Hand': Weapon.generate(quality='Common', quality_val=1, etype='Weapon',
-        #     #                              equipable_slot='Main Hand',
-        #     #                              att_dmg_min=1, att_dmg_max=3),
-        #     'Main Hand': Equipment.generate(unit_data["equipment"].get("Main Hand"), level),
-        #     'Off Hand': None,
-        #     'Head': None,
-        #     'Chest': None,
-        #     'Legs': None,
-        #     'Feet': None,
-        #     'Ring': None,
-        #     'Necklace': None,
-        # }
+                equip_slots[e_slot] = Equipment.generate(unit_data["equipment"].get(e_slot), level, quality='Common')
+
 
         tracked_values = {
             'ct': 1000,
