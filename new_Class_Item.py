@@ -90,7 +90,9 @@ class Equipment:
                                  'Great': 2, 'Magical': 3,
                                  'Legendary': 4}
 
-        level_mod = 1 + level * 0.5
+        name = ''
+
+        level_mod = 0.5 + level * 0.5
 
         if e_type == 'rng':
             e_type = random.choice(list(e_types.keys()))
@@ -100,34 +102,68 @@ class Equipment:
             quality = random.choices(sList, weights=sWeights, k=1)[0]
         quality_val = sValue.get(quality)
 
+        name += quality
+
         main_base_stats = ['dex', 'str', 'int']
         secondary_base_stats = ['vit', 'toughness', 'agility']
+        derived_stats = ['max_hp', 'max_mana', 'armor', 'magic_resistance',
+                         'speed', 'dodge', 'crit_chance', 'crit_dmg',
+                         'elemental_resistance']
 
         main_stat = random.choice(main_base_stats)
         added_stats = [random.choice(secondary_base_stats)
                        for _ in range(quality_attrib_amount[quality])]
 
         # print(f'main: {main_stat} added: {added_stats}, combined: {added_stats + [main_stat]}')
+        item_subtype = random.choice(list(data_src.data['equipment_bases'][e_type].keys()))
+        item_data = data_src.data['equipment_bases'][e_type][item_subtype]
+        base_stats = item_data.get('base_stats')
+        stats = item_data.get('stats')
+
+        if e_type == 'weapon':
+            attack_options = []
+            main_stat_attacks = data_src.search_loc('primary_attacks', 'dmg_base', main_stat, 'both')
+            print(f'q: {quality}, ms: {main_stat}')
+
+            # todo: get base stats from item class and add item class name to item_name
+
+            for a in main_stat_attacks:
+                # print(f'k: {a[1]} ')
+                if quality in a[1]['quality']:
+                    attack_options.append(a[0])
+            attack = random.choice(attack_options)
+            attack = 'primary_attacks/' + attack
+            wpn_dmg = level + random.randint(0, level)
+            stats['wpn_dmg'] += max(1, round(wpn_dmg * quality_val * level_mod))
+            attack_data = data_src.get_data_from_loc_str(data_src.data, attack)
+            name_prefix = f' {attack_data.get("name_suffix", "basic")}'
+            # name += f' {attack}'
+        else:
+            stats['wpn_dmg'] = None
+            attack = None
+            if main_stat == 'dex':
+                name_prefix = 'Swift'
+            elif main_stat == 'str':
+                name_prefix = 'Mighty'
+            elif main_stat == 'int':
+                name_prefix = 'Smart'
+
+        name += ' ' + name_prefix + ' ' + item_subtype
+
         value = 10
         base_stats = {}
         for stat in main_base_stats + secondary_base_stats:
             if stat in added_stats + [main_stat]:
-                base_stats[stat] = random.randint(0, level) + random.randint(0, level)
-                base_stats[stat] = round(base_stats[stat] * quality_val * level_mod)
+                base_stats[stat] = level + base_stats.get(stat, 0)
+                base_stats[stat] += random.randint(0, level) + random.randint(0, level)
+                base_stats[stat] = max(1, round(base_stats[stat] * (quality_val / 2) * level_mod))
                 value += base_stats[stat]
             else:
                 base_stats[stat] = 0
 
-        stats = {}
-
-        if e_type == 'Weapon':
-            wpn_dmg = ''
-            attack = ''
-        else:
-            wpn_dmg = None
-            attack = None
-
-        name = 'item name generation here'
+        for stat in derived_stats:
+            stats[stat] = round(stats.get(stat, 0) * quality_val * 2)
+        # stats = {}
 
         max_durability = 10
         durability = max_durability
@@ -146,10 +182,10 @@ class Equipment:
         return dummy
 
     def __repr__(self):
-        return f'{self.name} {self.quality} {self.type}: {self.equipable_slot}'
+        return f'{self.name} {self.type}: {self.equipable_slot}'
 
     def __str__(self):
-        return f'{self.name} {self.quality} {self.type}: {self.equipable_slot}'
+        return f'{self.name} {self.type}: {self.equipable_slot}'
 
     @property
     def dmg_base(self):

@@ -36,7 +36,16 @@
           "rnd_target": true,
           "can_crit": true,
           "vamp": 25
-        }
+        },
+      "vamp_multi_target": {
+        "target_num": 3,
+        "splash_dmg": 50,
+        "primary": true,
+        "primary_pct": 100,
+        "rnd_target": true,
+        "can_crit": true,
+        "vamp": 25
+      }
       },
   "spells": {
       "heal": {

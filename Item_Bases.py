@@ -68,7 +68,6 @@ class Equipment:
             'wpn_dmg': round(att_dmg_max * self.quality_val),
         }
 
-
     @classmethod
     def generate(cls, quality='Common', quality_val=1, etype='Weapon', equipable_slot='Main Hand', value=0,
                  max_durability=10, strength=0, dexterity=0, intelligence=0,

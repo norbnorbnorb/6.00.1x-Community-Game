@@ -4,28 +4,69 @@
     "description": "You run at your enemy and swiftly hit him.",
     "attack_setup": "attack_setups/weapons/basic_attack",
     "dmg_base": "dex",
-    "elemental": "physical"
+    "elemental": "physical",
+    "quality": ["Rusty", "Common", "Great"]
   },
   "basic_attack_str": {
     "name": "basic attack",
     "description": "You run at your enemy and strongly hit him.",
     "attack_setup": "attack_setups/weapons/basic_attack",
     "dmg_base": "str",
-    "elemental": "physical"
+    "elemental": "physical",
+    "quality": ["Rusty", "Common", "Great"]
   },
   "basic_attack_int": {
     "name": "basic attack",
     "description": "You run at your enemy and intelligently hit him.",
     "attack_setup": "attack_setups/weapons/basic_attack",
     "dmg_base": "int",
-    "elemental": "physical"
+    "elemental": "physical",
+    "quality": ["Rusty", "Common", "Great"]
   },
   "bleed_attack_dex": {
     "name": "bleed attack",
+    "name_suffix": "slashing",
     "description": "You slash a gushing wound on your enemy.",
     "attack_setup": "attack_setups/weapons/basic_attack",
     "dmg_base": "dex",
     "elemental": "physical",
-    "status_effect": "status_effects/bleed"
+    "status_effect": "status_effects/bleed",
+    "quality": ["Great", "Magical"]
+  },
+    "single_vamp_str": {
+    "name": "vampiric attack",
+    "name_suffix": "vampiric",
+    "description": "You drain life force from your target with every hit.",
+    "attack_setup": "attack_setups/weapons/basic_attack",
+    "dmg_base": "str",
+    "elemental": "magic",
+    "quality": ["Great", "Magical"]
+  },
+   "multi_vamp_str": {
+    "name": "vampiric attack",
+    "name_suffix": "vampiric multi",
+    "description": "You drain life force from your target with every hit.",
+    "attack_setup": "attack_setups/weapons/vamp_multi_target",
+    "dmg_base": "str",
+    "elemental": "magic",
+    "quality": ["Legendary"]
+  },
+  "multi_vamp_dex": {
+    "name": "vampiric attack",
+    "name_suffix": "vampiric multi",
+    "description": "You drain life force from your target with every hit.",
+    "attack_setup": "attack_setups/weapons/vamp_multi_target",
+    "dmg_base": "dex",
+    "elemental": "magic",
+    "quality": ["Legendary"]
+  },
+  "multi_vamp_int": {
+    "name": "vampiric attack",
+    "name_suffix": "vampiric multi",
+    "description": "You drain life force from your target with every hit.",
+    "attack_setup": "attack_setups/weapons/vamp_multi_target",
+    "dmg_base": "int",
+    "elemental": "magic",
+    "quality": ["Legendary"]
   }
 }
