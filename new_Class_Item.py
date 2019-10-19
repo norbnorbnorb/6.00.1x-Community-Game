@@ -80,7 +80,7 @@ class Equipment:
                    base_stats, stats, attack)
 
     @classmethod
-    def generate_random(cls, level, e_type='rng', e_slot='rng', quality='rng'):
+    def generate_random(cls, level, e_type='rng', e_slot='rng', quality='rng', main_stat='rng'):
         e_types = {
             "weapon": ['Main Hand', 'Off Hand'],
             "armor": ['Head', 'Chest', 'Legs', 'Feet'],
@@ -95,9 +95,9 @@ class Equipment:
         level_mod = 0.5 + level * 0.5
 
         if e_type == 'rng':
-            e_type = random.choice(list(e_types.keys()))
+            e_type = random.choice(list(e_types))
         if e_slot == 'rng':
-            e_slot = random.choice(e_types[e_type])
+            e_slot = random.choice(list(e_types[e_type]))
         if quality == 'rng':
             quality = random.choices(sList, weights=sWeights, k=1)[0]
         quality_val = sValue.get(quality)
@@ -110,15 +110,17 @@ class Equipment:
                          'speed', 'dodge', 'crit_chance', 'crit_dmg',
                          'elemental_resistance']
 
-        main_stat = random.choice(main_base_stats)
+        if main_stat == 'rng':
+            main_stat = random.choice(main_base_stats)
+
         added_stats = [random.choice(secondary_base_stats)
                        for _ in range(quality_attrib_amount[quality])]
 
         # print(f'main: {main_stat} added: {added_stats}, combined: {added_stats + [main_stat]}')
-        item_subtype = random.choice(list(data_src.data['equipment_bases'][e_type].keys()))
+        item_subtype = random.choice(list(data_src.data['equipment_bases'][e_type]))
         item_data = data_src.data['equipment_bases'][e_type][item_subtype]
-        base_stats = item_data.get('base_stats')
-        stats = item_data.get('stats')
+        base_stats = item_data.get('base_stats', {})
+        stats = item_data.get('stats', {})
 
         if e_type == 'weapon':
             attack_options = []
@@ -151,15 +153,14 @@ class Equipment:
         name += ' ' + name_prefix + ' ' + item_subtype
 
         value = 10
-        base_stats = {}
+        # base_stats = {}
         for stat in main_base_stats + secondary_base_stats:
+            base_stats[stat] = base_stats.get(stat, 0)
+
             if stat in added_stats + [main_stat]:
-                base_stats[stat] = level + base_stats.get(stat, 0)
-                base_stats[stat] += random.randint(0, level) + random.randint(0, level)
-                base_stats[stat] = max(1, round(base_stats[stat] * (quality_val / 2) * level_mod))
+                base_stats[stat] += random.randint(0, level)  # + random.randint(0, level)
+                base_stats[stat] = round(base_stats[stat] * (quality_val / 2) * level_mod + level)
                 value += base_stats[stat]
-            else:
-                base_stats[stat] = 0
 
         for stat in derived_stats:
             stats[stat] = round(stats.get(stat, 0) * quality_val * 2)

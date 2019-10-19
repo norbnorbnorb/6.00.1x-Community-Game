@@ -42,6 +42,15 @@
     "elemental": "magic",
     "quality": ["Great", "Magical"]
   },
+  "single_vamp_int": {
+    "name": "vampiric attack",
+    "name_suffix": "vampiric",
+    "description": "You drain life force from your target with every hit.",
+    "attack_setup": "attack_setups/weapons/basic_attack",
+    "dmg_base": "int",
+    "elemental": "magic",
+    "quality": ["Great", "Magical"]
+  },
    "multi_vamp_str": {
     "name": "vampiric attack",
     "name_suffix": "vampiric multi",

@@ -1,0 +1,57 @@
+{
+  "weapon": {
+    "dagger": {
+      "base_stats": {
+        "agility": 1
+      },
+      "stats": {
+        "crit_chance": 2,
+        "wpn_dmg": 1
+      }
+    },
+    "club": {
+      "base_stats": {
+        "vit": 1
+      },
+      "stats": {
+        "armor": 1,
+        "wpn_dmg": 1
+      }
+    },
+    "wand": {
+      "base_stats": {
+      },
+      "stats": {
+        "magic_resistance": 1,
+        "max_mana": 5,
+        "wpn_dmg": 1
+      }
+    }
+  },
+  "armor": {
+    "cloth": {
+      "base_stats": {
+        "agility": 1
+      },
+      "stats": {
+        "armor": 1
+      }
+    },
+     "chain mail": {
+      "base_stats": {
+
+      },
+      "stats": {
+        "arnor": 2
+      }
+    },
+     "plate": {
+      "base_stats": {
+        "agility": -1
+      },
+      "stats": {
+        "armor": 3
+      }
+    }
+  }
+}
