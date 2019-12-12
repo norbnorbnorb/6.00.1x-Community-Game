@@ -5,7 +5,8 @@ from random import *
 from time import sleep
 
 from Class_Party import *
-from Class_Map import *
+import Class_World_Map
+# from Class_Map import *
 from Class_Hero import *
 from helper_functions import *
 from battle import *
@@ -21,7 +22,7 @@ class Game:
     def __init__(self):
         self.party = Party.generate(self)
         self.Mode = ''
-        self.lvl_map = MapFloor.generate(self)
+        self.world_map = Class_World_Map.MapManager()
         self.difficulty = ''
         self.kill_count = {
             'trash': 0,
@@ -146,7 +147,7 @@ class Game:
         choice_list.append('Party Info')
         choice = select_from_list(choice_list, f'\nWhat would you like to do\n ', index_pos=False, horizontal=True)
         if choice == 'Adventure':
-            event_loc_str = self.lvl_map.run_map()
+            event_loc_str = self.world_map.run()
 
             if event_loc_str == 'random':
                 is_fight_trash = 50 < random.randint(0, 100)
@@ -218,9 +219,9 @@ class Game:
                     p=False)
 
             # print(f'enemy party: {enemy_party}')
-            enemy_units_lef = clock_tick_battle(self.party, enemy_party)
+            enemy_units_left = clock_tick_battle(self.party, enemy_party)
             vfx.clear_screen()
-            if not enemy_units_lef:
+            if not enemy_units_left:
                 xp = event['loot']['xp'] + enemy_party.party_worth_xp()
                 for member in self.party.members:
                     member.add_xp(xp)
@@ -246,11 +247,10 @@ class Game:
         input('Press enter.')
 
 
-
     def serialize(self):
         dummy = self.__dict__.copy()
         dummy['party'] = dummy['party'].serialize()
-        dummy['lvl_map'] = dummy['lvl_map'].serialize()
+        dummy['world_map'] = dummy['world_map'].serialize()
         return dummy
 
     @classmethod
@@ -259,8 +259,8 @@ class Game:
         dummy.__dict__ = save_data['game'].copy()
         dummy.party = Party.deserialize(dummy.party.copy())
         dummy.party.game = dummy
-        dummy.lvl_map = MapFloor.deserialize(dummy.lvl_map.copy())
-        dummy.lvl_map.game = dummy
+        dummy.world_map = Class_World_Map.MapManager.deserialize(dummy.world_map.copy())
+        dummy.world_map.game = dummy
         return dummy
 
     def save(self):

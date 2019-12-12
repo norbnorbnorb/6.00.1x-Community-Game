@@ -2,14 +2,14 @@ import random
 
 from Class_Map import MapFloor
 
-dungeon1 = {'loc_str': 'enter cave 1', 'amount': 10, 'char': 'C'}
-small_dungeon = {'tile_width': 3, 'tile_rows': 5, 'world_w': 2, 'world_r': 1, 'party_loc_x': 0, 'party_loc_y': 0}
-
+dungeons = [{'loc_str': f'enter cave {n}', 'amount': 1, 'char': 'C'} for n in range(1, 10)]
+small_dungeon = {'tile_width': 4, 'tile_rows': 5, 'world_w': 2, 'world_r': 1, 'party_loc_x': 0, 'party_loc_y': 0}
+test_events = [{'loc_str': f'events/default/rng', 'amount': 3, 'char': 'E'}]
 
 class MapManager:
     def __init__(self):
         self.active_floor = 0
-        self.dungeons = {'world_map': [MapFloor.generate('World Map', 1, [dungeon1], **small_dungeon)], 'cave 1': self.make_new_dungeon('cave 1', [])}
+        self.dungeons = {'world_map': [MapFloor.generate('World Map', 1, dungeons, **small_dungeon)], 'cave 1': self.make_new_dungeon('cave 1', [])}
         self.active_dungeon = self.dungeons['world_map']
 
     @property
@@ -39,9 +39,9 @@ class MapManager:
         return dungeon
 
     def enter_dungeon(self, event):
-        dungeon_name = event[6:]
+        dungeon_name = event[6:]  # remove 'Enter ' substring
         if dungeon_name not in self.dungeons.keys():
-            self.dungeons[dungeon_name] = self.make_new_dungeon(dungeon_name, events=[], floors=3)
+            self.dungeons[dungeon_name] = self.make_new_dungeon(dungeon_name, events=test_events)
         self.active_floor = 0
         self.set_active_dungeon(self.dungeons[dungeon_name])
 
@@ -64,6 +64,13 @@ class MapManager:
             else:
                 return event
 
+    def serialize(self):
+        pass
 
+    @classmethod
+    def deserialize(cls, data):
+        pass
 
+    def __str__(self):
+        return f'{self.active_dungeon}, {self.active_floor}'
 # dungeon1 = {'loc_str': 'enter cave 1', 'amount': 1, 'char': 'd'}

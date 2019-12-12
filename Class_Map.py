@@ -102,6 +102,7 @@ class MapFloor:
             else:
                 print('Move impossible')
                 self.move()
+        return direction
 
     def make_move(self, move):
         self.party_loc = self.sum_pos(self.party_loc, move)
@@ -156,7 +157,9 @@ class MapFloor:
     def run_map(self):
         while True:
             self.print_player_in_map()
-            self.move()
+            direction = self.move()
+            if direction == 'Camp':
+                return direction
             self.print_player_in_map()
             event = self.event_check()
             if event:
@@ -166,7 +169,7 @@ class MapFloor:
             #     if random.randint(0, 100) < rand_event_chance:
             #         return 'random'
 
-    def generate_and_place_events(self, loc_str, amount, char='x'):
+    def place_event(self, loc_str, amount=1, char='x'):
         world_r = len(self.base_map)
         world_w = len(self.base_map[0])
         tile_rows = len(self.base_map[0][0])
@@ -197,10 +200,10 @@ class MapFloor:
 
         map_instance = cls(base_map, dungeon_name, floor, events=[], p_loc_tx=party_loc_x, p_loc_ty=party_loc_y)
         for event in events:
-            map_instance.generate_and_place_events(**event)
-        # map_instance.generate_and_place_events('events/default/new random member', 5, 'M')
-        # map_instance.generate_and_place_events('events/elite/rng', 25, 'E')
-        # map_instance.generate_and_place_events('events/test/high_boss', 1, 'B')
+            map_instance.place_event(**event)
+        # map_instance.place_event('events/default/new random member', 5, 'M')
+        # map_instance.place_event('events/elite/rng', 25, 'E')
+        # map_instance.place_event('events/test/high_boss', 1, 'B')
         map_instance.party_loc['pos'] = map_instance.events[-1]['pos']
         return map_instance
 
@@ -219,10 +222,3 @@ class MapFloor:
         dummy = cls.generate(None)
         dummy.__dict__ = save_data.copy()
         return dummy
-
-
-a = {'pos': {'w': {'x': 1, 'y': 1}, 't': {'x': 0, 'y': 0}}, 'char': '#'}
-
-if __name__ == '__main__':
-    m1 = MapFloor.generate(None)
-    m1.run_map()
