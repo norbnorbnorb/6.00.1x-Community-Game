@@ -597,6 +597,8 @@ class NPC:
         for e_slot in equip_slot_list:
             if unit_data["equipment"].get(e_slot, None):
                 equip_slots[e_slot] = Equipment.generate(unit_data["equipment"].get(e_slot), level, quality='Common')
+            else:
+                equip_slots[e_slot] = None
 
 
         tracked_values = {

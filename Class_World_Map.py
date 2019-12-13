@@ -23,7 +23,7 @@ class MapManager:
         lvl_down = {'loc_str': 'lvl_down', 'amount': 1, 'char': 'd'}
         lvl_up = {'loc_str': 'lvl_up', 'amount': 1, 'char': 'u'}
         world_map = {'loc_str': 'enter world_map', 'amount': 1, 'char': 'w'}
-
+        events += test_events  # TODO: fix this!
         dungeon = []
         if floors == 'rng':
             floors = random.randint(0, 5)

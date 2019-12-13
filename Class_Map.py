@@ -165,9 +165,9 @@ class MapFloor:
             if event:
                 print(f'{event.get("description")}')
                 return event['event_key']
-            # else:
-            #     if random.randint(0, 100) < rand_event_chance:
-            #         return 'random'
+            else:
+                if random.randint(0, 100) < rand_event_chance:
+                    return 'random'
 
     def place_event(self, loc_str, amount=1, char='x'):
         world_r = len(self.base_map)
