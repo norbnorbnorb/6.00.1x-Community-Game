@@ -12,6 +12,7 @@ from helper_functions import *
 from battle import *
 from data_src import get_save_games, data
 import vfx
+from new_Class_Item import Equipment
 
 project_path = os.getcwd()
 save_file_extention = '.json'
@@ -95,12 +96,14 @@ class Game:
                 print('You bid the traveler farewell and continue on your way.\n')
 
         elif event == 1:
-            p1 = create_random_item(2)
+            # p1 = create_random_item(2)
+            p1 = Equipment.generate_random(self.party.members[0].level)
             self.party.display_single_item_card(p1)
             self.party.inventory.append(p1)
             print(f'You find an item and toss it in your bag and keep moving.')
         elif event == 2:
-            p1 = create_random_item(1)
+            # p1 = create_random_item(1)
+            p1 = Equipment.generate_random(self.party.members[0].level)
             self.party.display_single_item_card(p1)
             self.party.inventory.append(p1)
             print(f'You find an item and toss it in your bag and keep moving.')
@@ -114,7 +117,7 @@ class Game:
         self.party.inventory_menu()
 
     def camp(self):
-        camp_input = select_from_list(['Inventory', 'Rest', 'Craft', 'Continue Adventuring', 'Save', 'Title Screen', 'Exit'],
+        camp_input = select_from_list(['Inventory', 'Manage spells', 'Rest', 'Craft', 'Continue Adventuring', 'Save', 'Title Screen', 'Exit'],
                                       f'What would you like to do:\n', False, True)
         if camp_input == 'Rest':
             for member in self.party.members:
@@ -122,6 +125,8 @@ class Game:
                 member.set_mana(full=True)
         elif camp_input == 'Inventory':
             self.party.inventory_menu()
+        elif camp_input == 'Manage spells':
+            self.party.manage_spells()
         elif camp_input == 'Craft':
             print('You need a craftsman.')
             self.camp()
@@ -199,7 +204,8 @@ class Game:
         self.game_over()
 
     def event_handler(self, event):
-        clear_screen()
+        vfx.clear_screen()
+        party_won = True
         for line in event["texts"]["start"]:
             print(f'{line:^80}')  # end='\n')
             sleep(0.5)
@@ -220,8 +226,9 @@ class Game:
 
             # print(f'enemy party: {enemy_party}')
             enemy_units_left = clock_tick_battle(self.party, enemy_party)
+            party_won = not enemy_units_left
             vfx.clear_screen()
-            if not enemy_units_left:
+            if party_won:
                 xp = event['loot']['xp'] + enemy_party.party_worth_xp()
                 for member in self.party.members:
                     member.add_xp(xp)
@@ -240,6 +247,20 @@ class Game:
                                           index_pos=False, horizontal=True)
             if add_choice == 'Yes':
                 self.party.add_member(new_member)
+        if party_won:
+            # TODO: distribure loot
+            loot = event.get('loot')
+            for equipment_loc_str in loot.get('equipment'):
+                print(f'{equipment_loc_str}')
+                # TODO: fix weapon generation from loc string
+                # equipment = Equipment.generate(equipment_loc_str, self.party.members[0].level)
+                equipment = Equipment.generate_random(self.party.members[0].level)
+                self.party.add_item(equipment)
+            for spell_loc_str in loot.get('spells'):
+                print(f'{spell_loc_str}')
+                spell = get_data_from_loc_str(data, spell_loc_str)
+                self.party.add_spell(spell)
+
         vfx.clear_screen()
         for line in event["texts"]["end"]:
             print(f'{line:^80}')  # end='\n')

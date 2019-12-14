@@ -18,5 +18,26 @@
         "cd_timer": 0,
         "dmg_base": "int",
         "elemental": "heal"
+    },
+    "fireball":{
+        "name": "fireball",
+        "description": "A huge fireball falls from the sky.",
+        "mana_cost": 5,
+        "cool_down": 2,
+        "attack_setup": "attack_setups/spells/multi_attack_low_dmg",
+        "cd_timer": 0,
+        "dmg_base": "int",
+        "elemental": "magic"
+    },
+    "cutthroat":{
+        "name": "cutthroat",
+        "description": "You quickly dash forward and slash gushing wounds on the targets.",
+        "mana_cost": 5,
+        "cool_down": 2,
+        "attack_setup": "attack_setups/spells/multi_attack_low_dmg",
+        "cd_timer": 0,
+        "dmg_base": "dex",
+        "elemental": "physical",
+        "status_effect": "status_effects/bleed"
     }
 }

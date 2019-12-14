@@ -37,7 +37,7 @@
     "name": "vampiric attack",
     "name_suffix": "vampiric",
     "description": "You drain life force from your target with every hit.",
-    "attack_setup": "attack_setups/weapons/basic_attack",
+    "attack_setup": "attack_setups/weapons/single_attack_vamp",
     "dmg_base": "str",
     "elemental": "magic",
     "quality": ["Great", "Magical"]
@@ -46,8 +46,17 @@
     "name": "vampiric attack",
     "name_suffix": "vampiric",
     "description": "You drain life force from your target with every hit.",
-    "attack_setup": "attack_setups/weapons/basic_attack",
+    "attack_setup": "attack_setups/weapons/single_attack_vamp",
     "dmg_base": "int",
+    "elemental": "magic",
+    "quality": ["Great", "Magical"]
+  },
+    "single_vamp_dex": {
+    "name": "vampiric attack",
+    "name_suffix": "vampiric",
+    "description": "You drain life force from your target with every hit.",
+    "attack_setup": "attack_setups/weapons/single_attack_vamp",
+    "dmg_base": "dex",
     "elemental": "magic",
     "quality": ["Great", "Magical"]
   },

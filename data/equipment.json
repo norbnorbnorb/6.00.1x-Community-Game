@@ -79,16 +79,17 @@
     }
   },
   "armor": {
-    "tank_chest": {
-      "base_stats": {
+    "plate": {
+      "tank_chest": {
+        "base_stats": {
           "vit": 2,
           "dex": 0,
           "str": 0,
           "int": 0,
           "agility": 0,
           "toughness": 1
-      },
-      "stats": {
+        },
+        "stats": {
           "max_hp": 40,
           "max_mana": 0,
           "armor": 2,
@@ -98,6 +99,7 @@
           "crit_chance": 0,
           "crit_dmg": 0,
           "elemental_resistance": 2
+        }
       }
     }
   }

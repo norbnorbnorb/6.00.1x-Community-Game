@@ -351,6 +351,13 @@ class NPC:
         if p:
             print(f'{self.name} no longer {status_effect["msg"]}')
 
+    def add_spell(self, spell):
+        if spell.get('name') not in [s.get('name') for s in self.spell_book]:
+            self.spell_book.append(spell)
+            return True
+        else:
+            return False
+
     def choose_target(self, target_party):
         """
         picks random target from target_party.members

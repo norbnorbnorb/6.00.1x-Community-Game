@@ -39,7 +39,7 @@ class Equipment:
         keys = data_src.get_keys_from_loc_str(data_src.data, item_loc_str)
         file, cls_type, item_class, item_id = keys
         item_data = data_src.get_data_from_keys(data_src.data, keys)
-
+        print(item_data)
         etype = item_class
         equipable_slot = item_data.get('equipable_slot')
 
@@ -141,7 +141,7 @@ class Equipment:
             name_prefix = f' {attack_data.get("name_suffix", "basic")}'
             # name += f' {attack}'
         else:
-            stats['wpn_dmg'] = None
+            stats['wpn_dmg'] = 0
             attack = None
             if main_stat == 'dex':
                 name_prefix = 'Swift'

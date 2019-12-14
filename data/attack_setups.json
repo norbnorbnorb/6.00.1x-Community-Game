@@ -28,6 +28,7 @@
           "vamp": 0,
           "can_crit": true
           },
+
       "single_attack_vamp": {
           "target_num": 1,
           "splash_dmg": 0,
@@ -73,8 +74,17 @@
         "max_hp_pct_dmg": 0,
         "c_hp_pct_dmg": 0,
         "can_dodge": true
-        }
-      },
+        },
+      "multi_attack_low_dmg": {
+          "target_num": 3,
+          "splash_dmg": 50,
+          "primary": false,
+          "primary_pct": 50,
+          "rnd_target": true,
+          "vamp": 0,
+          "can_crit": true
+      }
+  },
   "dots": {
     "bleed": {
       "target_num": 1,

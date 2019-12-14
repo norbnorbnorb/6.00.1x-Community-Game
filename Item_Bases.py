@@ -378,6 +378,7 @@ class Jewelry(Equipment):
 
 
 def create_random_item(class_type=1):
+
     """Generates an instance of the selected class"""
     if class_type == 1:
         item_variable = Weapon.generate_random()
