@@ -4,6 +4,8 @@ from Class_NPC import *
 from Class_Hero import Hero
 from battle import *
 from Class_Party import Party
+from new_Class_Item import *
+
 
 dummy_game = SimpleNamespace(difficulty='Easy')
 
@@ -14,3 +16,7 @@ p1 = Party(dummy_game)
 p2 = Party(dummy_game)
 p1.add_member(npc1)
 p2.add_member(npc2)
+i1 = Equipment.generate_random(3)
+i2 = Equipment.generate_random(3)
+p1.add_item(i1)
+p1.add_item(i2)

@@ -214,6 +214,14 @@ class Equipment:
             line_2_left = f'Dur: {self.durability:>2}/{self.max_durability:<2}'
 
             line_2_right = f'Damage: {self.stats["wpn_dmg"]:>3}-{self.dmg_base:<3}'
+        else:
+            line_1_left = f'{self.quality} {self.type}'
+            line_1_right = f'{self.equipable_slot}'
+
+            # Line 2
+            line_2_left = f'Dur: {self.durability:>2}/{self.max_durability:<2}'
+
+            line_2_right = f'Armor: {self.base_stats["agility"]:>3}-{self.stats["armor"]:<3}'
 
             # Line 3
             # line_3_left = " " * 15
@@ -227,11 +235,13 @@ class Equipment:
             #         chant2 = f'{enchant}: {value}'
             #         line_3_right = f'{chant2}'
 
-            # Combine L an R lines
-            line_1 = f'{line_1_left}{line_1_right:>{30 - len(line_1_left)}}'
-            line_2 = f'{line_2_left}{line_2_right:>{30 - len(line_2_left)}}'
-            # line_3 = f'{line_3_left}{line_3_right:>{30 - len(line_3_left)}}'
-            return [line_1, line_2]  # line_3]
+        # Combine L an R lines
+        line_1 = f'{line_1_left}{line_1_right:>{30 - len(line_1_left)}}'
+        line_2 = f'{line_2_left}{line_2_right:>{30 - len(line_2_left)}}'
+        # line_3 = f'{line_3_left}{line_3_right:>{30 - len(line_3_left)}}'
+        return [line_1, line_2]  # line_3]
+
+
 
     def info(self):
         return '\n'.join(
