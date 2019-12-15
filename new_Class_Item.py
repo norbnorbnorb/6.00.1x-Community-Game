@@ -1,5 +1,6 @@
 import random
 import data_src
+import vfx
 
 sWeights = (6, 44, 28, 18, 4)
 sList = ['Rusty', 'Common',
@@ -29,6 +30,9 @@ class Equipment:
         self.stats = stats
         self.attack = attack
 
+    # @property
+    # def attack_base(self):
+    #     return data_src.get_data_from_loc_str(data_src.data, self.attack).get("dmg_base")
 
     @classmethod
     def generate(cls, item_loc_str, level, quality='rng'):
@@ -205,7 +209,13 @@ class Equipment:
         return f'{name:<15}{slot:>15}\n{line2_left:<15}{line2_right:>15}\n'
 
     def item_card(self):
-        if self.type == 'Weapon':
+        if self.type == 'weapon':
+            colors = {
+                'dex': vfx.Colors.fg.green,
+                'str': vfx.Colors.fg.red,
+                'int': vfx.Colors.fg.cyan
+            }
+
             # Line 1
             line_1_left = f'{self.quality} {self.type}'
             line_1_right = f'{self.equipable_slot}'
@@ -215,6 +225,7 @@ class Equipment:
 
             line_2_right = f'Damage: {self.stats["wpn_dmg"]:>3}-{self.dmg_base:<3}'
         else:
+
             line_1_left = f'{self.quality} {self.type}'
             line_1_right = f'{self.equipable_slot}'
 

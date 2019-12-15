@@ -1,4 +1,5 @@
 from itertools import zip_longest
+from copy import deepcopy
 
 from data_src import *
 from combat_funcs import *
@@ -46,7 +47,11 @@ def battle_menu(attacker, enemy_party):
         setup = get_data_from_loc_str(data, attack['attack_setup'])
         attack_dmg_base = attack['dmg_base']
         elemental = attack['elemental']
-        dmg_done = run_attack(attacker, enemy_party, dmg_base=attack_dmg_base, elemental=elemental, **setup)
+        status_effect = None
+        if attack.get('status_effect', None):
+            status_effect = deepcopy(get_data_from_loc_str(data, attack.get('status_effect')))
+        dmg_done = run_attack(attacker, enemy_party, dmg_base=attack_dmg_base, elemental=elemental,
+                              status_effect=status_effect, **setup)
 
     elif action == 'spell':
         if len(spell_options) < 1:
@@ -58,8 +63,12 @@ def battle_menu(attacker, enemy_party):
             attack_setup = get_data_from_loc_str(data, spell['attack_setup'])
             spell_dmg_base = spell['dmg_base']
             spell_elemental = spell['elemental']
+            status_effect = None
+            if spell.get('status_effect', None):
+                status_effect = deepcopy(get_data_from_loc_str(data, spell.get('status_effect')))
             dmg_done = run_attack(attacker, enemy_party,
-                                  dmg_base=spell_dmg_base, elemental=spell_elemental, **attack_setup)
+                                  dmg_base=spell_dmg_base, elemental=spell_elemental,
+                                  status_effect=status_effect, **attack_setup)
 
             attacker.set_mana(-spell['mana_cost'])
             spell['cd_timer'] = spell['cool_down']
@@ -152,7 +161,7 @@ def get_target(attacker, primary, forced_primary_target,
 # TODO: add a function to modify setup based on player stats and percs once we have that before running attack?
 def run_attack(attacker, target_party, target_num=1, primary=True, primary_pct=100,
                rnd_target=True, forced_primary_target=None, splash_dmg=0,
-               elemental='physical', vamp=0, can_crit=True, dmg_base='str_based',
+               elemental='physical', vamp=0, can_crit=True, dmg_base='str',
                wpn_dmg_pct=100, c_hp_pct_dmg=0, max_hp_pct_dmg=0, can_dodge=True, status_effect=None, p=True):
     """
 
@@ -202,7 +211,7 @@ def run_attack(attacker, target_party, target_num=1, primary=True, primary_pct=1
             if target.is_alive and status_effect:
                 status_effect['caster'] = attacker  # TODO: this seems a bit dirty
                 target.add_status_effect(status_effect)
-
+            print(f'vamp: {vamp}')
             if not vamp == 0:
                 run_attack(attacker, attacker.party, 1, forced_primary_target=attacker,
                            primary_pct=vamp, dmg_base=dmg_base, elemental='heal',
@@ -376,7 +385,8 @@ def tick_status_effects(unit):
     for se in unit.get_status_effects():
         attack = se.get('attack_setup', None)
         if attack:
-            run_attack(attacker=se['caster'], target_party=unit.party, forced_primary_target=unit, **attack)
+            run_attack(attacker=se['caster'], target_party=unit.party, forced_primary_target=unit,
+                       **get_data_from_loc_str(data, attack))
         se['ticks'] -= 1
         if se['ticks'] < 1:
             unit.remove_status_effect(se)

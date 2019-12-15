@@ -287,8 +287,9 @@ class Party:
     def manage_spells(self):
         clear_screen()
         if self.spells:
-            spell_i = select_from_list([s.get('name') for s in self.spells],
-                                           index_pos=True, q='What spell do you want to give a hero?')
+            spell_names = [s.get('name') for s in self.spells]
+            print(spell_names)  # TODO: print spell names pretty
+            spell_i = select_from_list(spell_names, index_pos=True, q='What spell do you want to give a hero?')
             member_i = select_from_list(self.members_names_list(), index_pos=True, q='Who do you want to give it to?')
             member_learned_spell = self.members[member_i].add_spell(self.spells[spell_i])
             if member_learned_spell:

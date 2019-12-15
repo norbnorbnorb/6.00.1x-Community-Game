@@ -5,6 +5,7 @@ from Class_Hero import Hero
 from battle import *
 from Class_Party import Party
 from new_Class_Item import *
+from data_src import *
 
 
 dummy_game = SimpleNamespace(difficulty='Easy')

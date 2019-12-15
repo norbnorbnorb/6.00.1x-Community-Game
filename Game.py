@@ -259,6 +259,7 @@ class Game:
             for spell_loc_str in loot.get('spells'):
                 print(f'{spell_loc_str}')
                 spell = get_data_from_loc_str(data, spell_loc_str)
+                print(f'{spell.get("name")}')
                 self.party.add_spell(spell)
 
         vfx.clear_screen()
