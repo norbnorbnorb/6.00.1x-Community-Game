@@ -122,7 +122,7 @@ def run_attack(attacker, target_party, target_num=1, primary=True, primary_perce
     :param rnd_target: bool: chooses non primary targets randomly
     :param forced_primary_target: npc or subclass: used as primary target
     :param splash_dmg: dmg to non primary targets
-    :param elemental: dmg type used to calculate and apply dmg / special for 'heal'(inverts dmg) and 'true'(ignores defense)
+    :param elemental: dmg etype used to calculate and apply dmg / special for 'heal'(inverts dmg) and 'true'(ignores defense)
     :param vamp: int: percentage of dmg dealt affecting attacker hp. can be negative
     :param can_crit: bool:
     :param dmg_base: 'str_based' or 'int_based'. for dmg generation

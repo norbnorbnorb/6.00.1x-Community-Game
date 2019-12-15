@@ -9,18 +9,21 @@ rand_event_chance = 30
 
 
 class MapFloor:
-    def __init__(self, base_map, dungeon_name, floor, events, p_loc_tx=0, p_loc_ty=0, p_loc_wx=0, p_loc_wy=0):
+
+    def __init__(self, base_map, dungeon_name, floor, events, party_loc, last_party_loc,
+                 events_active_tile=[], known_events=[]):
         self.events = events
         self.dungeon_name = dungeon_name
         self.floor = floor
-        self.events_active_tile = []
-        self.known_events = []
+        self.events_active_tile = events_active_tile
+        self.known_events = known_events
         self.base_map = base_map
-        self.party_loc = {'pos': {
-            'w': {'x': p_loc_wx, 'y': p_loc_wy},  # position  on the world
-            't': {'x': p_loc_tx, 'y': p_loc_ty},  # position on the tile
-        }, 'char': 'o'}
-        self.last_party_loc = self.party_loc
+        # self.party_loc = {'pos': {
+        #     'w': {'x': p_loc_wx, 'y': p_loc_wy},  # position  on the world
+        #     't': {'x': p_loc_tx, 'y': p_loc_ty},  # position on the tile
+        # }, 'char': 'o'}
+        self.party_loc = party_loc
+        self.last_party_loc = last_party_loc
 
     def __repr__(self):
         return f'{self.dungeon_name} f: {self.floor}'
@@ -194,11 +197,16 @@ class MapFloor:
         self.events += new_events
 
     @classmethod
-    def generate(cls, dungeon_name, floor, events, tile_width=8, tile_rows=8, world_w=2, world_r=1, party_loc_x=0, party_loc_y=0):
+    def generate(cls, dungeon_name, floor, events, tile_width=8, tile_rows=8, world_w=2, world_r=1,
+                 p_loc_wx=0, p_loc_wy=0, p_loc_tx=0, p_loc_ty=0):
         base_map = MapFloor.generate_new_level(world_w, world_r, tile_width, tile_rows)
         # events = []
+        party_loc = {'pos': {
+            'w': {'x': p_loc_wx, 'y': p_loc_wy},  # position  on the world
+            't': {'x': p_loc_tx, 'y': p_loc_ty},  # position on the tile
+        }, 'char': 'o'}
 
-        map_instance = cls(base_map, dungeon_name, floor, events=[], p_loc_tx=party_loc_x, p_loc_ty=party_loc_y)
+        map_instance = cls(base_map, dungeon_name, floor, events=[], party_loc=party_loc, last_party_loc=party_loc)
         for event in events:
             map_instance.place_event(**event)
         # map_instance.place_event('events/default/new random member', 5, 'M')
@@ -219,6 +227,9 @@ class MapFloor:
 
     @classmethod
     def deserialize(cls, save_data):
-        dummy = cls.generate(None)
-        dummy.__dict__ = save_data.copy()
+        # dummy = cls.generate(None, None, [None])
+        # dummy = cls(None, None, None, [])
+        # dummy.__dict__ = copy.deepcopy(save_data)
+
+        dummy = cls(**save_data)
         return dummy

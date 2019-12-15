@@ -2,8 +2,8 @@ import json
 import copy
 import os
 
-from x_Attack_Setups import *
-import x_Spell_Setups
+# from x_Attack_Setups import *
+# import x_Spell_Setups
 # from Item_Bases import *
 import battle
 from new_Class_Item import *
@@ -581,7 +581,7 @@ class NPC:
     #         high_lvl = enemy_data['meta'].get('high_lvl', level)
     #         lvl_mod = random.randint(low_lvl, high_lvl)
     #         level += lvl_mod
-    #     return NPC(name, e_unit, level, type=e_type)
+    #     return NPC(name, e_unit, level, etype=e_type)
 
     @classmethod
     def generate_unit(cls, unit_loc_str, level, name=''):

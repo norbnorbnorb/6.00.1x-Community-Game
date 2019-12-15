@@ -23,7 +23,7 @@ class Game:
     def __init__(self):
         self.party = Party.generate(self)
         self.Mode = ''
-        self.world_map = Class_World_Map.MapManager()
+        self.world_map = Class_World_Map.MapManager.generate()
         self.difficulty = ''
         self.kill_count = {
             'trash': 0,
@@ -56,7 +56,7 @@ class Game:
                 print(f'{hero_name}, ah yes. That name carries great respect!')
 
             else:
-                print('Ah, the quiet type huh? I\'ll just call you Steve.')
+                print('Ah, the quiet etype huh? I\'ll just call you Steve.')
                 hero_name = 'Steve'
 
             hero_profession = select_from_list(list(get_data_from_loc_str(data, 'heroes/bases').keys()),
@@ -282,7 +282,7 @@ class Game:
         dummy.party = Party.deserialize(dummy.party.copy())
         dummy.party.game = dummy
         dummy.world_map = Class_World_Map.MapManager.deserialize(dummy.world_map.copy())
-        dummy.world_map.game = dummy
+        # dummy.world_map.game = dummy
         return dummy
 
     def save(self):

@@ -13,7 +13,7 @@ class Hero(NPC):
                          spell_book, equip_slots, tracked_values,
                          hero, level, xp, next_level)
         # _ = unit_type
-        # self.type = 'Hero'
+        # self.etype = 'Hero'
 
     @classmethod
     def generate(cls, name='Mr. Lazy', profession='Warrior', level=1, type='Hero'):

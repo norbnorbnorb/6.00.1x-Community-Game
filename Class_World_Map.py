@@ -1,16 +1,32 @@
 import random
 
+import copy
 from Class_Map import MapFloor
 
+
 dungeons = [{'loc_str': f'enter cave {n}', 'amount': 1, 'char': 'C'} for n in range(1, 10)]
-small_dungeon = {'tile_width': 4, 'tile_rows': 5, 'world_w': 2, 'world_r': 1, 'party_loc_x': 0, 'party_loc_y': 0}
+small_dungeon = {'tile_width': 4, 'tile_rows': 5, 'world_w': 2, 'world_r': 1}
 test_events = [{'loc_str': f'events/default/rng', 'amount': 3, 'char': 'E'}]
 
+
 class MapManager:
-    def __init__(self):
-        self.active_floor = 0
-        self.dungeons = {'world_map': [MapFloor.generate('World Map', 1, dungeons, **small_dungeon)], 'cave 1': self.make_new_dungeon('cave 1', [])}
-        self.active_dungeon = self.dungeons['world_map']
+    def __init__(self, active_floor, dungeons, active_dungeon):
+        self.active_floor = active_floor
+        self.dungeons = dungeons
+        self.active_dungeon = active_dungeon
+
+    @classmethod
+    def generate(cls):
+        dungeons = [{'loc_str': f'enter cave {n}', 'amount': 1, 'char': 'C'} for n in range(1, 10)]
+        small_dungeon = {'tile_width': 4, 'tile_rows': 5, 'world_w': 2, 'world_r': 1}
+        test_events = [{'loc_str': f'events/default/rng', 'amount': 3, 'char': 'E'}]
+
+        # init
+        active_floor = 0
+        dungeons = {'world_map': [MapFloor.generate('World Map', 1, dungeons, **small_dungeon)],
+                    'cave 1': MapManager.make_new_dungeon('cave 1', [])}
+        active_dungeon = dungeons['world_map']
+        return cls(active_floor, dungeons, active_dungeon)
 
     @property
     def active_map(self):
@@ -19,7 +35,8 @@ class MapManager:
     def set_active_dungeon(self, dungeon):
         self.active_dungeon = dungeon
 
-    def make_new_dungeon(self, dungeon_name, events, floors='rng'):
+    @staticmethod
+    def make_new_dungeon(dungeon_name, events, floors='rng'):
         lvl_down = {'loc_str': 'lvl_down', 'amount': 1, 'char': 'd'}
         lvl_up = {'loc_str': 'lvl_up', 'amount': 1, 'char': 'u'}
         world_map = {'loc_str': 'enter world_map', 'amount': 1, 'char': 'w'}
@@ -65,11 +82,19 @@ class MapManager:
                 return event
 
     def serialize(self):
-        pass
+        dummy = copy.deepcopy(self.__dict__)
+        for k, v in dummy['dungeons'].items():
+            dummy['dungeons'][k] = [MapFloor.serialize(f) for f in v]
+        dummy['active_dungeon'] = [dungeon.serialize() for dungeon in dummy['active_dungeon']]
+        return dummy
 
     @classmethod
-    def deserialize(cls, data):
-        pass
+    def deserialize(cls, save_data):
+        dummy = copy.deepcopy(save_data)
+        for k, v in dummy['dungeons'].items():
+            dummy['dungeons'][k] = [MapFloor.deserialize(f) for f in v]
+        dummy['active_dungeon'] = [MapFloor.deserialize(*dummy['active_dungeon'])]
+        return cls(**dummy)
 
     def __str__(self):
         return f'{self.active_dungeon}, {self.active_floor}'

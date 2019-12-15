@@ -13,16 +13,16 @@ sValue = {'Rusty': 0.8, 'Common': 1,
 
 class Equipment:
     def __init__(
-            self, quality, quality_value, etype, equipable_slot, value,
+            self, quality, quality_val, etype, equipable_slot, value,
             max_durability, durability, name,
             base_stats, stats, attack
             ):
         self.quality = str(quality)
-        self.quality_val = quality_value
+        self.quality_val = quality_val
         self.value = value
         self.max_durability = max_durability
         self.durability = durability
-        self.type = etype
+        self.etype = etype
         self.equipable_slot = equipable_slot
         self.name = name
 
@@ -47,7 +47,7 @@ class Equipment:
         etype = item_class
         equipable_slot = item_data.get('equipable_slot')
 
-        level_mod = 1 + level * 0.5  # TODO: move level mod to setup file, add drop chances somewhere
+        level_mod = 1 + level * 0.5  # TODO: move item level mod to setup file, add drop chances somewhere
 
         base_stat_list = ['vit', 'dex', 'str', 'int', 'agility', 'toughness']
         base_stats = {}
@@ -187,10 +187,10 @@ class Equipment:
         return dummy
 
     def __repr__(self):
-        return f'{self.name} {self.type}: {self.equipable_slot}'
+        return f'{self.name} {self.etype}: {self.equipable_slot}'
 
     def __str__(self):
-        return f'{self.name} {self.type}: {self.equipable_slot}'
+        return f'{self.name} {self.etype}: {self.equipable_slot}'
 
     @property
     def dmg_base(self):
@@ -201,7 +201,7 @@ class Equipment:
         return dmg_base
 
     def show_stats(self):
-        name = f'{self.name} {self.quality} {self.type}'
+        name = f'{self.name} {self.quality} {self.etype}'
         slot = f'{self.equipable_slot.title():>9}'
         dmg = f'{self.stats["wpn_dmg"]:>3}-{self.dmg_base:<3}'
         line2_left = f'Dur: {self.durability:>2}/{self.max_durability:<2} '
@@ -209,7 +209,7 @@ class Equipment:
         return f'{name:<15}{slot:>15}\n{line2_left:<15}{line2_right:>15}\n'
 
     def item_card(self):
-        if self.type == 'weapon':
+        if self.etype == 'weapon':
             colors = {
                 'dex': vfx.Colors.fg.green,
                 'str': vfx.Colors.fg.red,
@@ -217,7 +217,7 @@ class Equipment:
             }
 
             # Line 1
-            line_1_left = f'{self.quality} {self.type}'
+            line_1_left = f'{self.quality} {self.etype}'
             line_1_right = f'{self.equipable_slot}'
 
             # Line 2
@@ -226,7 +226,7 @@ class Equipment:
             line_2_right = f'Damage: {self.stats["wpn_dmg"]:>3}-{self.dmg_base:<3}'
         else:
 
-            line_1_left = f'{self.quality} {self.type}'
+            line_1_left = f'{self.quality} {self.etype}'
             line_1_right = f'{self.equipable_slot}'
 
             # Line 2

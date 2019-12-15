@@ -1,7 +1,7 @@
 from helper_functions import *
 from Class_Hero import *
 from Class_NPC import *
-from Item_Bases import *
+from new_Class_Item import *
 
 
 class Party:
